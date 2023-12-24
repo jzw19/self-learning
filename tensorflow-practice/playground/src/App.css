@@ -1,0 +1,15 @@
+.App {
+  text-align: center;
+}
+
+.App > * > * {
+  margin: 5%;
+}
+
+.title {
+  border: 2px solid black;
+}
+
+.subtitle {
+  border-bottom: 2px dotted black;
+}
