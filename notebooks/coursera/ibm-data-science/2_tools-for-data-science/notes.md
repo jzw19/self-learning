@@ -75,9 +75,9 @@
     - Apache Flink
     - Ray
 - Fully Integrated Visual Tools
- - Examples:
-  - KNIME
-  - Orange
+  - Examples:
+    - KNIME
+    - Orange
 
 
 ## Commercial Tools for Data Science
