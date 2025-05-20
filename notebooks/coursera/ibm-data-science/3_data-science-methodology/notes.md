@@ -124,9 +124,21 @@
 
 ---
 
-# Deployment
+# From Deployment to Feedback and Final Evaluation
 
-TODO
+## Deployment
+- Once a model is evaluated and the data scientist is confident it will work, it is deployed for user testing
+  - Users at this stage may be:
+    - Devs in a test environment
+    - Limited users who have opted in as beta testers
+    - Low-risk clients
+
+## Feedback
+- Collected from testing during deployment
+- Critical for proper evaluation of the model and determining what adjustments to make
+
+## Storytelling
+- Critical for making sure information is received well in communication
 
 ---
 
