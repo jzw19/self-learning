@@ -18,6 +18,8 @@
   - (Self-explanatory) expressions used within SELECT clause:
     - COUNT
     - DISTINCT
+    - Note that DISTINCT _can_ be used within COUNT. This would result in the number of rows that have distinct values on a specified column.
+      - e.g. `SELECT COUNT(DISTINCT column1) FROM TableName AS myCount` would result in a single column `myCount` with a single row that has a numeric value representing the number of rows that have distinct values in column1
   - Syntax:
     ```sql
     SELECT COUNT(*)
