@@ -24,6 +24,9 @@
     - $\alpha$ represents the learning rate
       - This controls "how big of a step" you take between recalculations of $\theta$
       - This cannot be too large, or else the function may fail to converge
+      - Choosing the right $\alpha$ is an art
+        - If $\alpha$ is too large, gradient descent can overshoot local optima (thereby missing them and potentially diverging instead of converging)
+        - If $\alpha$ is too small, gradient descent becomes very slow and inefficient
     - $\theta_j$ on the left-hand side represents the next value that needs to be calculated, while $\theta_j$ on the right-hand side represents the current value
     - When there are multiple $\theta$, all of them need to be udpates simultaneously. This means all of the values in one instance need to be used in each recalculation of the new values. Using newly calculated values in calculations from one point to the next is not gradient descent and is likely to produce unexpected results or behavior when you are trying to use gradient descent
   - Once gradient descent reaches a local optimum (minimum or maximum), it stops changing (because the derivative is 0, so the output becomes a constant, and that constant is the previous value)
