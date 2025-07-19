@@ -1,0 +1,63 @@
+# Multivariate Linear Regression
+- Notation: $x_j^{(i)}$ means:
+  - Look at the $j^{th}$ feature (column, 1-indexed)
+  - Look at the $i^{th}$ sample (row, 1-indexed)
+  - This is the variable entry (data cell) $x$ being referred to in this notation. Get that value.
+- Multivariate form of the hypothesis function:
+  - $h_\theta(x) = \theta_0 + \theta_1x_1 + \theta_2x_2 + ... +  + \theta_nx_n$
+  - where each $\theta$ represents a feature
+  - and each $x$ represents the value of feature $j$ for the given sample
+- In context, $\theta$ or $\theta_j$ is shorthand for a vector. Always think of it as a vector of multiple values, not a scalar that is a single value.
+- **Gradient Descent for Multiple Variables**
+  - Ways to make gradient descent more efficient:
+    - *Feature scaling*
+      - Problem
+        - Imagine that you have a data set that, when graphed, produces very long concentric ellipses (imagine a funnel that is very elongated horizontally when the openings are perpendicular to the ground). Gradient descent could take a very long time to converge because it could zigzag many times before reaching the global optimum.
+      - Solution
+        - Scale the features (by multiplying by a scalar) such that they become close in scale. Imagine stretching or compressing the ellipsis back into a circle. *This helps by making convergence faster.* One way to determine this scalar is to use the difference between the `max` and the `min` of the data set `(max - min)`
+      - Reasoning
+        - Gradient descent will converge much more quickly and still produce the result you are looking for.
+      - Other notes
+        - Generally want to get every feature into approximately a ($-1 \leq x_i \leq 1$) range
+          - Different people and different cases have different ranges. Determining this range is more art and logical reasoning than an exact science
+    - *Mean normalization*
+      - This just means finding the mean of your data range for a given feature and dividing all data points by this mean.
+    - *Adjust the learning rate $\alpha$*
+      - It is often more efficient to look at a graph to determine when the difference between iterations is small enough that you can "declare convergence"
+      - Signs that gradient descent is not working:
+        - You start to diverge (e.g. the difference between iterations starts to increase instead of decrease)
+      - Practical advice - just pick a set of values (e.g. 0.001, 0.01, 0.1, 1, 10, ...) and try them to see which one converges most rapidly without overshooting into divergence
+
+# Computing Parameters Analytically
+  - Normal equation - method to solve for $\theta$ analytically
+    - The actual equation: $\theta = (X^TX)^{-1}X^Ty$
+    - The formula for normalization of a single feature is:<br/>
+      $x_{norm} = \frac{x - \mu}{range}$
+    - Intuition
+      - Example:
+        - Note that in the equations for this example, the "+ 1" in "n + 1" comes from an extra, artificial feature that needs to be considered (n represents the number of features). This feature is called the bias/intercept term and is inserted so that the intercept can be learned just like any other weight in the normal equation.
+        - $J(\theta) = a\theta^2 + b\theta + c$, imagine $\theta$ is a known scalar value (constant)
+        - Goal is to find the minimum of the quadratic function (solve for the case when the derivative is 0). This is simple plug & chug
+        - Now consider that $\theta$ is a vector. The cost function becomes $\frac{1}{2m}\sum_{i=1}^m(h_\theta(x^i) - y^i)^2$
+        - Minimize this by taking the partial derivative with respect to $\theta_j$ and set the resulting summation to 0
+    - In Octave, this can be done with a single line: `pinv(X'*X)*X'*y`. The `'` symbol is used in this language to denote "transpose"
+    - Gradient Descent vs. Normal Equation
+      - Gradient Descent
+        - Pros
+          - Works well even when $n$ is large
+        - Cons
+          - Need to choose $\alpha$
+          - Needs many iterations
+      - Normal Equation
+        - Pros
+          - No need to choose $\alpha$
+          - Don't need to iterate
+        - Cons
+          - Need to compute $(X^TX)^{-1}$
+          - Slow if $n$ is very large
+    - Noninvertibility
+      - Only some matrices are invertible. Those that are not are called "singular" or "degenerate"
+      - In Octave, `pinv` is short for `pseudo-inverse`. The order of the arguments provided doesn't matter in `pinv`, so swapping `X'` and `X` in the arguments will produce the same result. There is another function `inv` that requires its argument to be square and invertible.
+      - One thing that can cause $(X^TX)^{-1}$ to be non-invertible is redundant features (like ones that are linearly dependent)
+      - Another thing that can cause $(X^TX)^{-1}$ to be non-invertible is having too many features and not enough samples (e.g. m = 10 and n = 100 where m is the number of samples and n is the number of features)
+        - This can be handled by deleting some features or using regularization
