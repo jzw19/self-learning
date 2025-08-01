@@ -40,6 +40,7 @@
     - The mathematical difference between linear regression and logistic regression is the definition of the hypothesis $h_\theta(x)$
     - A vectorized implementation of this cost function is: <br/>
       $h=g(X\theta)$ <br/>
+      $g(z) = \frac{1}{1+e^{-z}}$ <br/>
       $J(\theta)=\frac{1}{m}\cdot-y^T\log(h)-(1-y)^T\log(1-h)$
   - Gradient Descent
     - General form: <br/>
@@ -50,3 +51,29 @@
       - Still need to update all values in theta simultaneously
     - Vectorized implementation: <br/>
       $\theta:=\theta-\frac{\alpha}{m}X^T(g(X\theta)-\vec{y})$
+- Advanced Optimization
+  - Optimization algorithms other than gradient descent:
+    - Conjugate gradient
+    - BFGS (Broyden-Fletcher-Goldfarb-Shanno)
+    - L-BFGS (Limited-memory BFGS)
+  - Advantages of the above algorithms:
+    - No need to manually pick $\alpha$ (learning rate)
+      - They effectively have a smart way to pick a good learning rate
+    - Often faster than gradient descent
+  - Disadvantages of the above algorithms:
+    - More complex
+  - Recommended that you don't try to implement these advanced algorithms yourself unless you're an expert in numerical computing. Instead, just understand the concept and use an existing library (in Python, MATLAB or Octave. Otherwise, really test and evaluate results of using libraries in other languages)
+  - To use these algorithms, you need to provide a function that evaluates $J(\theta)$ (the cost function) and $\frac{\delta}{\delta\theta_j}J(\theta)$ (partial derivative(s) used to find an optimum). Then use an imported library to calculate the optimum (e.g. `fminunc()` in Octave)
+
+# Multiclass Classification
+- Examples of Multiclass Classification problems:
+  - Email foldering/tagging: Work, Friends, Family, Hobby
+    - 4 classes
+  - Medical diagnoses: Not ill, cold, flu
+    - 3 classes
+  - Weather: Sunny, Cloudy, Rainy, Snowy
+    - 4 classes
+- Basically, it's any classification where there are more than 2 classes or "buckets" that data can fall into
+- One-vs-all (one-vs-rest)
+  - Imagine that you have a problem with multiple "buckets" that data can fall into (3 or more clusters of data points). You need to calculate boundary (best fit) lines that separate these into their different classes, so it can't be done with a single straight line.
+  - Take a single class and evaluate it against all the rest, identify the boundary (best fit) line, then repeat for each class using logistic regression. Finally, when given a (multidimensional) data point $x$, we just run all of our classifiers (equations for the boundary lines) on the input $x$ and pick the class that maximizes those classifiers, which gives our final result (prediction) of $y$.
